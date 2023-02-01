@@ -1,4 +1,4 @@
-//LEETCODE
+//******************************************************  LEETCODE  ***********************************************************
 class Solution {
 private:
     void dfs(int node, vector<int> adjLs[], vector<int> &vis)
@@ -42,3 +42,90 @@ public:
         return Provinces;
     }
 };
+
+//******************************************************  GEEKSFORGEEKS  ************************************************************
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+//User function Template for C++
+
+class Solution {
+  private:
+    void dfs(int node, vector<int> adjLs[], int Vis[])
+    {
+        Vis[node] = 1;
+        for(auto it : adjLs[node])
+        {
+            if(!Vis[it])
+            {
+                dfs(it, adjLs, Vis);
+            }
+        }
+    }
+    
+  public:
+    int numProvinces(vector<vector<int>> adj, int V) {
+        
+        vector<int>adjLs[V];
+        
+        //To change adjacency matrix to adjacency List
+        for(int i=0;i<V;i++)
+        {
+            for(int j=0;j<V;j++)
+            {
+                if(adj[i][j]==1 && i!=j)
+                {
+                    adjLs[i].push_back(j);
+                    adjLs[j].push_back(i);
+                }
+                
+            }
+        }
+        //DFS Traversal
+        int Vis[V] = {0};
+        int Provinces = 0;
+        for(int i = 0;i<V;i++)
+        {
+            if(Vis[i]==0)
+            {
+                Provinces++;
+                dfs(i,adjLs,Vis);
+            }
+        }
+        return Provinces;
+        
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int V,x;
+        cin>>V;
+        
+        vector<vector<int>> adj;
+        
+        for(int i=0; i<V; i++)
+        {
+            vector<int> temp;
+            for(int j=0; j<V; j++)
+            {
+                cin>>x;
+                temp.push_back(x);
+            }
+            adj.push_back(temp);
+        }
+        
+
+        Solution ob;
+        cout << ob.numProvinces(adj,V) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
